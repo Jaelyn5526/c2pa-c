@@ -506,6 +506,9 @@ struct C2paSigner *c2pa_signer_create(const void *context,
                                       const char *certs,
                                       const char *tsa_url);
 
+IMPORT extern
+struct C2paSigner *c2pa_signer_create_from_info(const struct C2paSignerInfo *signer_info);
+
 /**
  * Frees a C2paSigner allocated by Rust.
  *
@@ -566,7 +569,7 @@ struct CStream *c2pa_create_stream(struct StreamContext *context,
 IMPORT extern void c2pa_release_stream(struct CStream *stream);
 
 #ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
+}  // extern "C"
+#endif  // __cplusplus
 
-#endif /* c2pa_bindings_h */
+#endif  /* c2pa_bindings_h */

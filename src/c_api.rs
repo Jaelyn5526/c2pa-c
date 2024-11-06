@@ -759,6 +759,24 @@ pub unsafe extern "C" fn c2pa_signer_create(
     }))
 }
 
+
+#[no_mangle]
+pub unsafe extern "C" fn c2pa_signer_create_from_info(signer_info: &C2paSignerInfo) -> *mut C2paSigner {
+    let signer_info = SignerInfo {
+        alg: from_cstr_null_check!(signer_info.alg),
+        sign_cert: from_cstr_null_check!(signer_info.sign_cert).into_bytes(),
+        private_key: from_cstr_null_check!(signer_info.private_key).into_bytes(),
+        ta_url: from_cstr_option!(signer_info.ta_url),
+    };
+    let result = signer_info.signer();
+    match result {
+        Ok(signer) => Box::into_raw(Box::new(C2paSigner {
+            signer
+        })),
+        Err(_err) => std::ptr::null_mut(),
+    }
+}
+
 /// Frees a C2paSigner allocated by Rust.
 ///
 /// # Safety
