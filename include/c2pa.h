@@ -391,6 +391,11 @@ int c2pa_builder_add_resource(struct C2paBuilder *builder_ptr,
                               const char *uri,
                               struct CStream *stream);
 
+IMPORT extern
+int c2pa_builder_set_thumbnail(struct C2paBuilder *builder_ptr,
+                               const char *format,
+                               struct CStream *stream);
+
 /**
  * Adds an ingredient to the C2paBuilder.
  *

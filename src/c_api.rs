@@ -550,6 +550,27 @@ pub unsafe extern "C" fn c2pa_builder_add_resource(
     }
 }
 
+#[no_mangle]
+pub unsafe extern "C" fn c2pa_builder_set_thumbnail(
+    builder_ptr: *mut C2paBuilder,
+    format: *const c_char,
+    stream: *mut CStream,
+) -> c_int {
+    let mut builder: Box<C2paBuilder> = Box::from_raw(builder_ptr);
+    let format = from_cstr_null_check_int!(format);
+    let result = builder.set_thumbnail(&format, &mut (*stream));
+    match result {
+        Ok(_builder) => {
+            let _ = Box::into_raw(builder);
+            0 as c_int
+        }
+        Err(err) => {
+            Error::from_c2pa_error(err).set_last();
+            -1
+        }
+    }
+}
+
 /// Adds an ingredient to the C2paBuilder.
 ///
 /// # Parameters
